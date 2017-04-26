@@ -17,6 +17,9 @@ module Tree
 
 data Tree a = Empty | Node a (Tree a) (Tree a) deriving (Read,Show)
 
+instance Functor Tree where
+  fmap g Empty = Empty
+  fmap g (Node a left right) = Node (g a) (fmap g left) (fmap g right)
 
 {- DESCRIPT BST -}
 
