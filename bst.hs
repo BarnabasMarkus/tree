@@ -14,12 +14,19 @@ module Tree
   , balance
   ) where
 
+import qualified Data.Foldable as F
 
 data Tree a = Empty | Node a (Tree a) (Tree a) deriving (Read,Show)
 
 instance Functor Tree where
   fmap g Empty = Empty
   fmap g (Node a left right) = Node (g a) (fmap g left) (fmap g right)
+
+instance F.Foldable Tree where
+  foldMap f Empty = mempty
+  foldMap f (Node a left right) = F.foldMap f left `mappend`
+                                  f a              `mappend`
+                                  F.foldMap f right
 
 {- DESCRIPT BST -}
 
